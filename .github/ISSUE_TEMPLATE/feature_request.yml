@@ -1,0 +1,26 @@
+name: Feature request
+description: Suggest an idea or a new thing TidyMac should clean
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like?
+      description: Describe the feature or the folder/cache you'd like cleaned.
+    validations:
+      required: true
+  - type: textarea
+    id: path
+    attributes:
+      label: Path(s) involved (if a new category)
+      placeholder: "~/Library/Caches/SomeApp"
+  - type: textarea
+    id: safe
+    attributes:
+      label: Is it safe to delete? What regenerates it?
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Contributing
+      options:
+        - label: I'm willing to open a PR for this
