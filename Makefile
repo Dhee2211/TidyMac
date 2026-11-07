@@ -1,4 +1,7 @@
-.PHONY: all run install clean
+.PHONY: all run install clean screenshot
+
+screenshot: all
+	./TidyMac.app/Contents/MacOS/TidyMac --screenshot docs/screenshot.png
 
 all:
 	./build.sh

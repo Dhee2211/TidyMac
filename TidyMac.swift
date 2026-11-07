@@ -233,6 +233,20 @@ struct ContentView: View {
         .padding(20)
         .frame(width: 420)
         .onAppear { m.scan() }
+        .onChange(of: m.scanning) { scanning in
+            // Dev helper: `TidyMac --screenshot out.png` saves the window and quits (used for docs).
+            guard !scanning, let i = CommandLine.arguments.firstIndex(of: "--screenshot"),
+                  CommandLine.arguments.count > i + 1 else { return }
+            let path = CommandLine.arguments[i + 1]
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                if let v = NSApp.windows.first?.contentView?.superview,
+                   let rep = v.bitmapImageRepForCachingDisplay(in: v.bounds) {
+                    v.cacheDisplay(in: v.bounds, to: rep)
+                    try? rep.representation(using: .png, properties: [:])?.write(to: URL(fileURLWithPath: path))
+                }
+                NSApp.terminate(nil)
+            }
+        }
     }
 }
 

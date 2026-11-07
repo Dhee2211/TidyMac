@@ -7,6 +7,10 @@ A tiny, dead-simple Mac app that frees up disk space in one click.
 - **Safe:** only removes things that get rebuilt automatically. Never touches your documents, photos or system files.
 - **Private:** fully on-device. No network access, no telemetry, no accounts.
 
+<p align="center">
+  <img src="docs/screenshot.png" alt="TidyMac window showing free disk space and cleanable categories" width="320">
+</p>
+
 ## What it cleans
 
 | Category | What | Default |
@@ -50,6 +54,7 @@ Emptying the Trash may also prompt you to allow TidyMac to control Finder.
 make          # build TidyMac.app
 make run      # build and launch
 make clean    # remove build output
+make screenshot  # regenerate docs/screenshot.png
 ```
 
 Everything lives in [`TidyMac.swift`](TidyMac.swift):
