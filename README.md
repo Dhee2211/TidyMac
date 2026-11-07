@@ -1,85 +1,94 @@
+<div align="center">
+
 # TidyMac
 
-A tiny, dead-simple Mac app that frees up disk space in one click.
+**Free up disk space on your Mac in one click.**
 
-- **Light:** ~280 KB, a single Swift file, zero dependencies.
-- **Fast:** scans in parallel, usually a few seconds.
-- **Safe:** only removes things that get rebuilt automatically. Never touches your documents, photos or system files.
-- **Private:** fully on-device. No network access, no telemetry, no accounts.
+A minimal, open-source cleaner built with SwiftUI. Everything runs on your device.
 
-<p align="center">
-  <img src="docs/screenshot.png" alt="TidyMac window showing free disk space and cleanable categories" width="320">
-</p>
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Platform](https://img.shields.io/badge/platform-macOS%2013%2B-lightgrey)
+![Swift](https://img.shields.io/badge/Swift-5-orange)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+<img src="docs/screenshot.png" alt="TidyMac" width="320">
+
+</div>
+
+## Features
+
+- **One-click cleanup.** Scan, review, clean.
+- **Safe by design.** Targets only files that regenerate automatically. Your documents and system files are never touched.
+- **Private.** No network access, no telemetry, no account.
+- **Native and lightweight.** A single Swift file with no third-party dependencies.
 
 ## What it cleans
 
-| Category | What | Default |
-|---|---|---|
-| App caches | `~/Library/Caches` (except Homebrew/pip, listed below) | on |
-| Logs | `~/Library/Logs` | on |
-| Trash | `~/.Trash` (**permanent**) | on |
-| Xcode build junk | DerivedData, CoreSimulator caches | on |
-| Developer caches | Homebrew, pip, npm, yarn, pnpm, Gradle, `~/.cache` | on |
-| Old downloads | `~/Downloads` items untouched for 90+ days, **moved to Trash** | off |
+| Category | Location | Default |
+| --- | --- | :---: |
+| App caches | `~/Library/Caches` | On |
+| Logs | `~/Library/Logs` | On |
+| Trash | `~/.Trash` (permanent) | On |
+| Xcode build files | DerivedData, simulator caches | On |
+| Developer caches | Homebrew, pip, npm, yarn, pnpm, Gradle | On |
+| Old downloads | `~/Downloads` items untouched for 90+ days, moved to Trash | Off |
 
-## Install
+## Installation
 
-**Requirements:** macOS 13+ and the Xcode Command Line Tools (`xcode-select --install`).
+Requires macOS 13 or later and the Xcode Command Line Tools (`xcode-select --install`).
 
 ```bash
 git clone https://github.com/Dhee2211/TidyMac.git
 cd TidyMac
-make
-open TidyMac.app
+make install
 ```
 
-Optional: `make install` copies it to `/Applications`.
+This builds the app and copies it to `/Applications`. To build without installing, run `make`, then `open TidyMac.app`.
 
-The app is ad-hoc signed, not notarized. On first launch, right-click it → **Open** → **Open**.
+> TidyMac is ad-hoc signed and not notarized. On first launch, right-click the app, choose **Open**, then confirm.
 
-## Use
+## Usage
 
 1. Open TidyMac. It scans automatically.
 2. Untick anything you want to keep.
-3. Click **Clean X GB** and confirm.
+3. Click **Clean** and confirm.
 
 ### Permissions
 
-macOS protects `~/.Trash` and `~/Downloads`. If those show **0 B** but you know they aren't empty, grant TidyMac **Full Disk Access** in *System Settings → Privacy & Security*, then relaunch.
-Emptying the Trash may also prompt you to allow TidyMac to control Finder.
+macOS protects the Trash and Downloads folders. If either shows no data when you know it has files, grant TidyMac **Full Disk Access** in *System Settings → Privacy & Security*, then relaunch. Emptying the Trash may also ask for permission to control Finder.
 
-## Develop
+## Development
 
 ```bash
-make          # build TidyMac.app
-make run      # build and launch
-make clean    # remove build output
-make screenshot  # regenerate docs/screenshot.png
+make              # build TidyMac.app
+make run          # build and launch
+make screenshot   # regenerate docs/screenshot.png
+make clean        # remove build output
 ```
 
-Everything lives in [`TidyMac.swift`](TidyMac.swift):
+The whole app is in [`TidyMac.swift`](TidyMac.swift):
 
-- `Kind` — the list of cleanup categories (add yours here).
-- `size(of:)` — fast allocated-size calculation.
-- `Model` — scan and clean logic.
-- `ContentView` — the UI.
+| Component | Role |
+| --- | --- |
+| `Kind` | Cleanup categories. Add new ones here. |
+| `size(of:)` | Disk usage calculation |
+| `Model` | Scan and clean logic |
+| `ContentView` | User interface |
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add a category.
+## Contributing
 
-## Contribute
+Contributions are welcome, from a single new cache path to larger features.
 
-Contributions are welcome — from a one-line new cache path to bigger ideas.
+- [Request a feature](../../issues/new?template=feature_request.yml)
+- [Report a bug](../../issues/new?template=bug_report.yml)
+- [Read the contributing guide](CONTRIBUTING.md) to add a cleanup category or open a pull request
 
-- 💡 **Request a feature:** [open a feature request](../../issues/new?template=feature_request.yml)
-- 🐛 **Report a bug:** [open a bug report](../../issues/new?template=bug_report.yml)
-- 🔧 **Send a PR:** read [CONTRIBUTING.md](CONTRIBUTING.md)
+Ideas open for contributors: large-file finder, menu bar mode, scheduled cleaning, preview of files before deleting, localization.
 
-Ideas on the wishlist: large-file finder, menu-bar mode, scheduled cleaning, dry-run list view, localization.
+## Safety
 
-## Safety promise
-
-Anything added to TidyMac must be regenerable or recoverable (moved to Trash). If you're unsure whether something is safe to delete, it doesn't belong in the default-on set.
+Anything TidyMac removes by default must be regenerable. Anything else must be opt-in and moved to Trash. Found a case where it deletes something it shouldn't? See [SECURITY.md](SECURITY.md).
 
 ## License
 
-[MIT](LICENSE)
+Released under the [MIT License](LICENSE).
